@@ -1,0 +1,61 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- ========================= SECTION MAIN ========================= -->
+<section class="section-intro padding-y-sm">
+<div class="container">
+
+<div class="intro-banner-wrap">
+	<p>hello</p>
+</div>
+
+</div> <!-- container //  -->
+</section>
+<!-- ========================= SECTION MAIN END// ========================= -->
+
+<!-- ========================= SECTION  ========================= -->
+<section class="section-name padding-y-sm">
+<div class="container">
+
+<header class="section-heading">
+	<a href="./store.html" class="btn btn-outline-primary float-right">See all</a>
+	<h3 class="section-title">Popular products</h3>
+</header><!-- sect-heading -->
+
+	
+<div class="row">
+	{% for product in products %}
+	<div class="col-md-3 mt-3">
+		<div class="card card-product-grid">
+			<a href="{{ product.get_url }}" class="img-wrap"> <img class="mt-3" src="{{ product.images.url }}"> </a>
+			<figcaption class="info-wrap" style="text-align: center;">
+				<a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>
+				<div class="price mt-1">{{ product.price }}</div> <!-- price-wrap.// -->
+			</figcaption>
+
+		</div>
+		<a href="{% url 'add_cart' product.id %}" style="background-color:rgb(175, 164, 66);color: white;" class="btn btn-block ">Add to cart </a>
+		<a href="#" style="background-color:white;color:rgb(175, 164, 66);border-color: rgb(175, 164, 66);" class="btn btn-block ">Buy Now </a>
+	</div> <!-- col.// -->
+	{% endfor %}
+</div> <!-- row.// -->
+
+</div><!-- container // -->
+</section>
+<!-- ========================= SECTION  END// ========================= -->
+<style>
+	.intro-banner-wrap{
+		background-image: url(https://i1.wp.com/kafkaesqueblog.com/wp-content/uploads/2014/09/Oud-Alif-banner-via-SB.jpg?w=635&ssl=1);
+		background-size: cover;
+		height: 80vh;
+	}
+</style>
+
+
+
+
+</body>
+</html>
+{% endblock %}

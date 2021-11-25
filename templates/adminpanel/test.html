@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-xl-8">
+        <div class="card">
+            <div class="card-header border-0">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="mb-0">Page visits</h3>
+                    </div>
+                    <div class="col text-right">
+                        <a href="#!" class="btn btn-sm btn-primary">See all</a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <!-- Projects table -->
+                <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Category id</th>
+                            <th scope="col">Category Name</th>
+                            <th scope="col">Slug</th>
+                            <th scope="col">Category Description</th>
+                            <th scope="col">Actions</th>
+                            <th scope="col">Actions</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for x in category %}
+                        <tr>
+                            <th scope="row">
+                                {{ x.id }}
+                            </th>
+                            <th scope="row">{{ x.category_name }}</th>
+                            <td>{{ x.slug }}</td>
+                            <td><textarea rows="4" cols="80">{{ x.description }}</textarea></td>
+                            <td>
+                                <div><a class="btn btn-primary">Edit</a></div>
+                            </td>
+                            <td><a class="btn btn-danger" href="" onclick="deletecategory('{{x.id}}')"
+                                    data-bs-toggle="modal" data-bs-target="#staticBackdrop">delete</a></td>
+                            {% if x.is_active %}
+
+                            <td><a class="btn btn-info" href="" onclick="edituser('{{x.id}}')" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">edit</a></td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+</div>

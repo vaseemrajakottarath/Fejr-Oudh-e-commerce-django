@@ -1,0 +1,44 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y" style="min-height:84vh">
+
+<!-- ============================ COMPONENT LOGIN   ================================= -->
+	<div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+        
+        <div class="card-body">
+
+      {% include 'includes/alert.html' %}
+      <form action="{% url 'otp'%}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="otpnumber" placeholder="Enter OTP">
+          </div> <!-- form-group// -->
+        
+        <div class="form-group">
+            <button type="submit" style="background-color: rgb(175, 164, 66);" class="btn btn-primary btn-block"> Submit </button>
+        </div>
+      </form>
+      </div> <!-- card-body.// -->
+     
+    </div> <!-- card .// -->
+  
+     <p class="text-center mt-4">Don't have account? <a href="#">Sign up</a></p>
+     <br><br>
+<!-- ============================ COMPONENT LOGIN  END.// ================================= -->
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+
+<!-- ========================= FOOTER END // ========================= -->
+<style>
+	.form-group1{
+		color: aqua;
+	}
+</style>
+{% endblock %}

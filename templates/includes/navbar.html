@@ -1,0 +1,232 @@
+{% load static %}
+<header class="section-header" style="background-color:rgb(175, 164, 66);">
+
+
+    <!-- <section class="header-main border-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-2 col-md-2 col-12">
+                    
+                    <a  href="{% url 'home'%}"style="font-family: 'Redressed', cursive; font-size: larger;color:white;">Fejr Oudh </a>
+                    <style>
+                        </style> 
+                    </div>
+               
+                <div class="col-lg-6  col-md-6 col-sm-12 col-12">
+                    <form action="#" class="search">
+                        <div class="input-group w-100" style="display: flex;justify-content: center;" >
+                        <div class="input-group w-60">
+                            <input type="text" class="form-control" style="width: 60%;border: 0;" placeholder="Search">
+
+                            <div class="input-group-append">
+                                <button class="btn" style="border:0;border-left: 1px solid #555;background-color:white;" type="submit">
+                                    <i class="fa fa-search" style="color: x"></i>
+                                </button>
+                            </div>
+                        </div>
+                        </div> -->
+                    <!-- </form> 
+                </div> 
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 order-2 order-lg-3">
+                    <div class="d-flex justify-content-end mb-3 mb-lg-0">
+                      {% if user.id is None %}
+                        <div class="widget-header " style="display: flex;justify-content: center;align-items: center;"> -->
+                            <!-- <small class="title text-muted">Welcome guest!</small> -->
+                            <!-- <div>
+                                <a href="{% url 'signin' %}" style="font-weight: 600;color: white;">Sign in</a> <span
+                                    class="dark-transp" style="color: white;">|</span>
+                                <a href="{% url 'register' %}" style="font-weight: 600;color: white;"> Register</a>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="widget-header">
+                          <small  style="color: white;" class="title " >Welcome {{user.first_name}}</small>
+                          <div>
+                              <a href="#" style="font-weight: 600;color: white;">Dashboard</a> <span
+                                  class="dark-transp" style="color: white;">|</span>
+                              <a href="{% url 'logout' %}" style="font-weight: 600;color: white;"> Logout</a>
+                          </div>
+                      </div>
+                      {% endif %}
+                        <a href="./cart.html" class="widget-header pl-3 ml-3">
+                            <div class="icon icon-sm "><i class="fa fa-shopping-cart" style="color: white;"></i></div>
+                        </a> -->
+                    <!-- </div> 
+                </div>
+            </div>
+                                <a  href="{% url 'home'%}"style="font-family: 'Redressed', cursive; font-size: larger;color:white;">Fejr Oudh </a>
+
+        </div> 
+        
+    </section> header-main .// -->
+
+
+    <nav class="navbar navbar-expand-lg pr-5 pl-5">
+      <a class="navbar-brand" href="{% url 'home'%}" style="font-family: 'Redressed', cursive; font-size: larger;color:white;"  >Fejr Oudh</a>
+      <style>    @import url('https://fonts.googleapis.com/css2?family=Redressed&display=swap');
+      </style>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse"  id="navbarSupportedContent" style="position: relative;">
+      
+       
+        <ul class="navbar-nav  " >
+          
+          <li class="nav-item dropdown">
+
+
+          <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="GET">
+            <div class="input-group w-100">
+              <input type="text" class="form-control" style=" border: 0;" placeholder="Search" name="keyword">
+
+              <div class="input-group-append">
+                  <button class="btn" style="border:0;border-left: 1px solid #555;background-color:white;" type="submit">
+                      <i class="fa fa-search" style="color: x"></i>
+                  </button>
+              </div>
+          </div>
+          </form>
+          </li>
+          <div style="display: flex; justify-content: space-around; align-items: center; margin-left: 150px;">
+          <li class="nav-item " >
+            <div class="" style="">
+              {% if user.id is None %}
+                <div class=" " style="display: flex;justify-content: center;align-items: center;">
+                    <!-- <small class="title text-muted">Welcome guest!</small> -->
+                    <div>
+                        <a href="{% url 'signin' %}" style="font-weight: 600;color: white;">Sign in</a> <span
+                            class="dark-transp" style="color: white;">|</span>
+                        <a href="{% url 'register' %}" style="font-weight: 600;color: white;"> Register</a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="widget-header">
+                  <small  style="color: white;" class="title " >Welcome {{user.first_name}}</small>
+                  <div>
+                      <a href="{% url 'dashboard'%}" style="font-weight: 600;color: white;">Dashboard</a> <span
+                          class="dark-transp" style="color: white;">|</span>
+                      <a href="{% url 'logout' %}" style="font-weight: 600;color: white;"> Logout</a>
+                  </div>
+              </div>
+              {% endif %}
+              
+            </div> <!-- widgets-wrap.// -->
+          </li>
+      
+          
+          <li class="nav-item">
+            <a href="{% url 'cart'%}" class="widget-header pl-3 ml-3">
+              <div class="icon icon-sm "><i class="fa fa-shopping-cart" style="color: white;"></i></div>
+              <span class="badge badge-pill badge-danger notify">{{cart_count}}</span>
+          </a>
+          </li>
+        </div>
+        </ul>
+       
+      </div>
+    </nav>
+
+
+
+
+</header> <!-- section-header.// -->
+<div  class="second-header" >
+   <div class="secoond-header-inner"> 
+        <div class="dropdown">
+            <button class="dropbtn">2021 HotProducts v</button>
+            <div class="dropdown-content">
+              {% for category in links %}
+              <a href="{{ category.get_url }}">{{category.category_name}}</a>
+             {% endfor %}
+              <!-- <a href="{% url 'store'%}">All products</a> -->
+            </div>
+          </div> 
+          <div class="dropdown">
+            <button class="dropbtn">Attar and Oudh v</button>
+            <div class="dropdown-content">
+              <a href="#">Musk Rijaali</a>
+              <a href="#">Mukhallath shams</a>
+              <a href="#"><Option>Black Oudh</Option></a>
+            </div>
+          </div> 
+          <div class="dropdown">
+            <button class="dropbtn">French perfumes v</button>
+            <div class="dropdown-content">
+              <a href="#">Davidoff coolwater</a>
+              <a href="#">Joop</a>
+              <a href="#">Bruit</a>
+            </div>
+          </div> 
+      </div>
+      
+      
+</div>
+
+<style>
+    /* Style The Dropdown Button */
+    .secoond-header-inner{
+        width: 50%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .second-header{
+        width: 100%;
+        background-color: white;
+        
+        display: flex;
+        justify-content: center;
+    }
+    .dropbtn {
+      background-color: white;
+      color: black;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+    
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    
+    /* Links inside the dropdown */
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+    
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {background-color: #f1f1f1}
+    
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    
+    /* Change the background color of the dropdown button when the dropdown content is shown */
+    .dropdown:hover .dropbtn {
+      background-color:white;
+    }
+    
+  
+              
+    </style>
+    
+    

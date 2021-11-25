@@ -1,0 +1,114 @@
+{% extends 'adminpanel/nav.html'%}
+{% load static %}
+
+{% block content %}
+<div class="row">
+
+
+  <div class="col-12 float-right">
+    <div class="card">
+      <div class="card-header border-0">
+        <div class="row align-items-center">
+          <div class="col">
+            <h3 class="mb-0">Category</h3>
+          </div>
+          <div class="col text-right mr-3">
+            <a href="{% url 'addcat'%}" class="btn btn-sm btn-primary">ADD</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <table class="table table-dark align-items-center ">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Category id</th>
+          <th scope="col">Category Name</th>
+          <th scope="col">Slug</th>
+          <th scope="col">Category Description</th>
+          <th scope="col">Actions</th>
+          <th scope="col">Actions</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for x in category %}
+        <tr>
+          <th>
+            {{ x.id }}
+          </th>
+          <th>{{ x.category_name }}</th>
+          <td>{{ x.slug }}</td>
+          <td><textarea>{{ x.description }}</textarea></td>
+          <td>
+            <div><a class="btn btn-primary" href="{% url 'editcat' x.id %}">Edit</a></div>
+          </td>
+          <td><a class="btn btn-danger" href="" onclick="deletecategory('{{x.id}}')" data-bs-toggle="modal"
+              data-bs-target="#1">delete</a></td>
+
+
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="2">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="model-body-content" class="text-danger"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a href="" type="button" class="btn btn-primary" id="delete"></a>
+      </div>
+    </div>
+  </div>
+</div>
+{% for x in messages %}
+
+<script>
+
+  swal({
+    title: "edit success!",
+    text: "You clicked the button!",
+    icon: "success",
+    button: "Aww yiss!",
+  });
+
+</script>
+{% endfor %}
+
+
+<script>
+  function deletecategory(id) {
+    document.getElementById('delete').href = 'deletecategory/' + id;
+    document.getElementById('2').innerText = 'Delete Category';
+    document.getElementById('delete').innerText = 'DeleteCategory';
+    document.getElementById('model-body-content').innerText = 'Are you sure to delete this Category .'
+  }
+
+
+
+</script>
+
+<script>
+  $(document).ready(function () {
+    $('#table').DataTable();
+  });
+</script>
+{% endblock %}

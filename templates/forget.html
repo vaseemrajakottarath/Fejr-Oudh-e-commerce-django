@@ -1,0 +1,65 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-conten padding-y" style="min-height:84vh">
+
+<!-- ============================ COMPONENT LOGIN   ================================= -->
+	<div class="card mx-auto" style="max-width: 400px; margin-top:100px;">
+        
+        <div class="card-body">
+
+      <h4 class="card-title mb-4">Sign in</h4>
+      {% include 'includes/alert.html' %}
+      <form action="{% url 'forgetpassword'%}" method="post" id="login">
+          {% csrf_token %}
+          <div class="form-group">
+			 <input type="email" class="form-control" placeholder="Email Address" name="email" >
+          </div> <!-- form-group// -->
+        
+          <div class="form-group">
+          	<a href="{% url 'signin'%}" class="float-right"> Remember password?</a> 
+           
+          </div> <!-- form-group form-check .// -->
+          <div class="form-group1" >
+              <button type="submit" style="width: 100%;background-color: rgb(175, 164, 66);color: white;" class="logi"> Login  </button>
+          </div> <!-- form-group// -->    
+      </form>
+      </div> <!-- card-body.// -->
+      <div class="otp">
+        <a href="{% url 'numberotp' %}" class="otp_login text-primary">OTP Login?</a>
+    </div>
+  
+    </div> <!-- card .// -->
+  
+     <!-- <p class="text-center mt-4">Don't have account? <a href="{% url 'register'%}">Sign up</a></p> -->
+     <br><br>
+<!-- ============================ COMPONENT LOGIN  END.// ================================= -->
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+
+<!-- ========================= FOOTER END // ========================= -->
+<style>
+	.form-group1{
+		color: aqua;
+	}
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+	<script src="{% static 'login.js' %}"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+	crossorigin="anonymous"></script>
+
+
+</body>
+</html>
+{% endblock %}
