@@ -22,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)gz@*2u@he*x8$@oon_ilv$u*qh57#_u6@8=&9wshygv(s3@c%'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG',default=False,cast=(bool))
 
 ALLOWED_HOSTS = []
 
@@ -158,3 +158,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'vaseemrajakottarath@gmail.com'
 EMAIL_HOST_PASSWORD = '9400888333'
 EMAIL_USE_TLS = True
+
+TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
+TWILIO_VERIFICATION_SID =config('TWILIO_VERIFICATION_SID')
