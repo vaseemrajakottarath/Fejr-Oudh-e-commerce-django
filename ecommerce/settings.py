@@ -162,3 +162,11 @@ EMAIL_USE_TLS = True
 TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
 TWILIO_VERIFICATION_SID =config('TWILIO_VERIFICATION_SID')
+
+#razorpay API credentials
+import razorpay
+client = razorpay.Client(auth=("YOUR_ID", "YOUR_SECRET"))
+
+# data = { "amount": 500, "currency": "INR", "receipt": "order_rcptid_11" }
+# payment = client.order.create(data=data)
+
