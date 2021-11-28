@@ -16,7 +16,8 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from cart.views import _cart_id
 import requests
-from orders.models import Order, OrderProduct
+from orders.models import Address, Order, OrderProduct
+from orders.forms import AddressForm
 
 # Create your views here.
 @never_cache
@@ -282,10 +283,10 @@ def change_password(request):
                 return redirect('change_password')
             else:
                 messages.error(request,'Please enter valid current password')
-                return redirect('chane_password.html')
+                return redirect('change_password.html')
 
-    else:
-        messages.error(request,'Password does not match X')
+        else:
+            messages.error(request,'Password does not match X')
     return render(request,'change_password.html')
 
 @login_required(login_url ='signin')
@@ -302,3 +303,50 @@ def order_detail(request,order_id):
         'subtotal':subtotal,
     }
     return render(request,'order_detail.html',context)
+
+def address_management(request):
+    user=request.user
+    form=AddressForm()
+    orders=Address.objects.filter(user=user)
+    context={
+        'orders':orders,
+        'form':form,
+    }
+    return render(request,'address_management.html',context)
+
+def add_address(request):
+    if request.method=='POST':
+        form=AddressForm(request.POST)
+        if form.is_valid():
+            address=form.save(commit=False)
+            address.user=request.user
+            address.save()
+            return redirect('address_management')
+    context={
+        'form':form,
+    }
+    return render(request,'address_management.html',context)
+
+def edit_address(request,id):
+    address =Address.objects.get(id=id)
+    form=AddressForm(instance=address)
+    if request.method=='POST':
+        form=AddressForm(request.POST,instance=address)
+        if form.is_valid():
+            try:
+                form.save()
+            except:
+                context={
+                    'form':form
+                }
+                return render(request,'edit_address.html',context)
+            return redirect('address_management')
+    context={
+        'form':form
+    }
+    return render(request,'edit_address.html',context)
+
+def delete_address(request,id):
+    address=Address.objects.get(id=id,user=request.user)
+    address.delete()
+    return redirect('address_management')

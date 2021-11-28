@@ -69,3 +69,22 @@ class OrderProduct(models.Model):
 
     def __str__(self):
         return self.product.product_name
+
+class Address(models.Model):
+    TYPE=(
+        ('home','home'),
+        ('work','work'),
+    )
+    user = models.ForeignKey(Account,on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+    phone = models.CharField(max_length=15)
+    address = models.CharField(max_length=200)
+    pincode = models.CharField(max_length=20)
+    locality = models.CharField(max_length=200)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    landmark = models.CharField(max_length=200)
+    alternate_phone = models.CharField(max_length=200)
+    type = models.CharField(max_length=200,choices=TYPE)
+    
+
