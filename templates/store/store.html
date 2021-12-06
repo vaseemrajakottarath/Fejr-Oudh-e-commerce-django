@@ -145,7 +145,10 @@
 				<div class="fix-height">
 						<a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>
 					<div class="price-wrap mt-2">
-						<span class="price">RS {{product.price}}</span>
+						<span class="price">Rs.{{ product.get_price|floatformat:0 }}/-</span>
+						&emsp;<del class="price-old">Rs.{{ product.price }}</del><br>
+						<p style="color:rgb(175, 164, 66)">Off-{{ product.productoffer.discount_offer }}%</p>
+
 					</div> <!-- price-wrap.// -->
 				</div>
 				<a href="{{ product.get_url }}" style="background-color:rgb(175, 164, 66)" class="btn btn-block btn-success">View Details </a>

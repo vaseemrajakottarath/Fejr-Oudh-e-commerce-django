@@ -1,5 +1,8 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404, redirect, render
+from offer.views import coupon
+from orders.forms import AddressForm
+from orders.models import Address
 from store.models import Product, Variation
 from .models import Cart, CartItem
 from django.http import HttpResponse
@@ -19,8 +22,9 @@ def cart(request,total=0,quantity=0,cart_items=None):
             cart = Cart.objects.get(cart_id=_cart_id(request))
             cart_items = CartItem.objects.filter(cart=cart,is_active=True)
         for cart_item in cart_items:
-            total += (cart_item.product.price * cart_item.quantity)
+            total += (cart_item.product.get_price()* cart_item.quantity)
             quantity += cart_item.quantity
+        offer_price=total-cart_item.product.price
         tax=(2*total)/100
         grand_total=total+tax
     except ObjectDoesNotExist:
@@ -31,6 +35,7 @@ def cart(request,total=0,quantity=0,cart_items=None):
         'cart_items':cart_items,
         'tax':tax,
         'grand_total':grand_total,
+        'offer_price':offer_price,
     }
     return render(request,'store/cart.html',context)
 
@@ -205,26 +210,43 @@ def remove_cart_item(request,product_id,cart_item_id):
 
 @login_required(login_url='signin')
 def checkout(request,total=0,quantity=0,cart_items=None):
-
+    user = request.user
+    form=AddressForm()
+    address=Address.objects.filter(user=user)
     try:
-
+        tax=0
+        grand_total=0
+        quantity=0
         if request.user.is_authenticated:
                     cart_items = CartItem.objects.filter(user=request.user,is_active=True)
         else:
             cart = Cart.objects.get(cart_id=_cart_id(request))
             cart_items = CartItem.objects.filter(cart=cart,is_active=True)
         for cart_item in cart_items:
-            total+=(cart_item.product.price * cart_item.quantity)
+            total+=(cart_item.product.get_price() * cart_item.quantity)
             quantity += cart_item.quantity
         tax=(2*total)/100
         grand_total=total+tax
     except ObjectDoesNotExist:
         pass
+    if request.session.has_key('coupon_id'):
+        couponid=request.session['coupon_id']
+        request.session['couponid']=couponid
+        del request.session['coupon_id']
+        coupen_discount= request.session['coupon_discount']
+        coupen_discount_price = total*(coupen_discount)/100
+        grand_total=grand_total-coupen_discount_price
+    else:
+        coupen_discount_price = 0
+    request.session['grand_total']=grand_total
     context={
         'total':total,
         'quantity':quantity,
         'cart_items':cart_items,
         'tax':tax,
-        'grand_total':grand_total
+        'grand_total':grand_total,
+        'form':form,
+        'address':address,
+        'coupen_discount_price':coupen_discount_price,
     }
-    return render(request,'store/checkout.html',context)
+    return render(request,'store/checkouts.html',context)

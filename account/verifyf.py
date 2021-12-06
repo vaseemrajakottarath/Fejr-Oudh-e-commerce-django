@@ -6,7 +6,7 @@ from django.conf import settings
 # and set the environment variables. See http://twil.io/secure
 def verify(mobile):
     account_sid = settings.TWILIO_ACCOUNT_SID
-    auth_token = settings.TWILIO_AUTH_TOKEN
+    auth_token = 
     client = Client(account_sid, auth_token)
 
     verification = client.verify \
@@ -17,7 +17,7 @@ def verify(mobile):
     print(verification.status)
 def verify2(mobile,otp):
     account_sid = settings.TWILIO_ACCOUNT_SID
-    auth_token = settings.TWILIO_AUTH_TOKEN
+    auth_token = 
     client = Client(account_sid, auth_token)
 
     verification_check = client.verify \

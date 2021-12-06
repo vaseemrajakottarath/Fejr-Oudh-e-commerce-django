@@ -1,11 +1,11 @@
 from django import   forms
 from django.forms import fields
-from .models import Order,Address
+from .models import Address,Ordern,OrderProduct
 
 class OrderForm(forms.ModelForm):
     class Meta  :
-        model = Order
-        fields = ['first_name','last_name','phone','email','address_line_1','address_line_2','country','state','city','order_note']
+        model = Ordern
+        fields = ['name','phone','address','pincode','locality','landmark','city','state','alternate_phone']
 
 class AddressForm(forms.ModelForm):
     class Meta:
@@ -16,3 +16,8 @@ class AddressForm(forms.ModelForm):
         super(AddressForm,self).__init__(*args,**kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs['class']='form-control'
+
+class OrderProductForm(forms.ModelForm):
+    class Meta:
+        model = OrderProduct
+        fields = ['user','payment','product','quantity','product_price','status'] 

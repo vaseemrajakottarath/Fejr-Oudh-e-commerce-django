@@ -16,7 +16,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from cart.views import _cart_id
 import requests
-from orders.models import Address, Order, OrderProduct
+from orders.models import Address, OrderProduct, Ordern
 from orders.forms import AddressForm
 
 # Create your views here.
@@ -96,6 +96,7 @@ def signin(request):
     return render(request,'signin.html')
 @never_cache
 def register(request):
+    global phone_number,user
     if request.user.is_authenticated:
         return redirect('home')
     if request.method == 'POST':
@@ -107,10 +108,13 @@ def register(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             username =email.split("@")[0]
+            request.session['key']=phone_number
 
             user = Account.objects.create_user(first_name=first_name,last_name=last_name,email=email,username=username,password=password)
-            user.phone_number = phone_number
-            user.save()
+            verify(phone_number)
+            return redirect('confirm_reg_otp')
+            # user.phone_number = phone_number
+            # user.save()
 
             #  create user profile 
             profile=UserProfile()
@@ -126,6 +130,43 @@ def register(request):
         'form':form
     }
     return render(request,'register.html',context)
+
+
+def confirm_reg_otp(request): 
+    if request.user.is_authenticated:
+        return redirect('home')
+    if request.method == 'POST':
+        otp1 = request.POST['otp1']
+        otp2 = request.POST['otp2']
+        otp3 = request.POST['otp3']
+        otp4 = request.POST['otp4']
+        # otp5 = request.POST['otp5']
+        # otp6 = request.POST['otp6']
+        otp = [otp1+otp2+otp3+otp4]
+        print(otp)
+        if verify2(phone_number,otp):
+            user.phone_number=phone_number
+            user.save()
+            messages.success(request,'Registered successfully')
+            return redirect('signin')
+        else:
+            print('OTP not matching')
+            return redirect('confirm_reg_otp')
+    return render(request,'confirm_reg_otp.html')
+
+
+def resend_reg_otp(request):
+    phone_number=request.session['key']
+    verify(phone_number)
+    return redirect('confirm_reg_otp')
+
+
+
+
+
+
+
+
 
 @login_required(login_url =' signin')
 def logout(request):
@@ -224,7 +265,7 @@ def resetpassword(request):
         return render(request,'resetpassword.html')
 
 def dashboard(request):
-    orders=Order.objects.order_by('-created_at').filter(user_id=request.user.id,is_ordered=True)
+    orders=Ordern.objects.order_by('-created_at').filter(user_id=request.user.id,is_ordered=True)
     orders_count=orders.count()
     context={
         'orders_count':orders_count,
@@ -233,7 +274,7 @@ def dashboard(request):
 
 @login_required(login_url =' signin')
 def my_orders(request):
-    orders=Order.objects.filter(user=request.user,is_ordered=True).order_by('-created_at')
+    orders=Ordern.objects.filter(user=request.user,is_ordered=True).order_by('-created_at')
     context={
         'orders':orders,
     }
@@ -292,7 +333,7 @@ def change_password(request):
 @login_required(login_url ='signin')
 def order_detail(request,order_id):
     order_detail = OrderProduct.objects.filter(order__order_number=order_id)
-    order=Order.objects.get(order_number=order_id)
+    order=Ordern.objects.get(order_number=order_id)
     subtotal=0
     for x in order_detail:
         subtotal += x.product_price * x.quantity
@@ -350,3 +391,4 @@ def delete_address(request,id):
     address=Address.objects.get(id=id,user=request.user)
     address.delete()
     return redirect('address_management')
+

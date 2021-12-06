@@ -67,8 +67,8 @@
 	</td>
 	<td> 
 		<div class="price-wrap"> 
-			<var class="price">{{ cart_item.sub_total}}</var> 
-			<small class="text-muted"> {{cart_item.product.price}} each</small> 
+			<var class="price">{{ cart_item.sub_total|floatformat:0}}</var> 
+			<small class="text-muted"> {{cart_item.product.get_price|floatformat:0}} each</small> 
 		</div> <!-- price-wrap .// -->
 	</td>
 	<td class="text-right"> 
@@ -87,16 +87,20 @@
 		<div class="card-body">
 			<dl class="dlist-align">
 			  <dt>Total price:</dt>
-			  <dd class="text-right">{{total}}</dd>
+			  <dd class="text-right">{{total|floatformat:0}}</dd>
 			</dl>
 			<dl class="dlist-align">
 			  <dt>Tax:</dt>
-			  <dd class="text-right"> {{tax}}</dd>
+			  <dd class="text-right"> {{tax|floatformat:0}} </dd>
 			</dl>
 			<dl class="dlist-align">
-			  <dt>Total:</dt>
-			  <dd class="text-right text-dark b"><strong>{{grand_total}}</strong></dd>
+			  <dt>Discount Price:</dt>
+			  <dd class="text-right text-dark b"><strong>{{offer_price|floatformat:0}}</strong></dd>
 			</dl>
+			<dl class="dlist-align">
+				<dt>Total:</dt>
+				<dd class="text-right text-dark b"><strong>{{grand_total|floatformat:1}}</strong></dd>
+			  </dl>
 			<hr>
 			<p class="text-center mb-3">
 				<img src="{% static './images/misc/payments.png'%}" height="26">

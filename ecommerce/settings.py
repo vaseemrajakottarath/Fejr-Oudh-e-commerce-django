@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'brand',
     'cart',
     'orders',
+    'offer',
     'crispy_forms',
 ]
 
@@ -162,6 +163,10 @@ EMAIL_USE_TLS = True
 TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
 TWILIO_VERIFICATION_SID =config('TWILIO_VERIFICATION_SID')
+
+RAZOR_KEY_ID = 'rzp_test_vRmBPLt5fE8qZV'
+RAZOR_KEY_SECRET = ''
+
 
 #razorpay API credentials
 import razorpay
