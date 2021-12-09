@@ -26,6 +26,7 @@
 </tr>
 </thead>
 <tbody>
+	{% endif %}
     {% for cart_item in cart_items %}
 <tr>
 	<td>
@@ -72,10 +73,14 @@
 		</div> <!-- price-wrap .// -->
 	</td>
 	<td class="text-right"> 
-	<a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" onclick="return confirm('Are you sure to remove?')" class="btn btn-danger"> Remove</a>
+	<a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" onclick="return confirm('Are you sure to remove?')" > <i class="fas fa-trash" ></i></a>
+
+		
+	<a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" onclick="return confirm('Are you sure to remove?')" class="btn btn-danger jj"> Remove</a>
 	</td>
 </tr>
 {% endfor %}
+
 </tbody>
 </table>
 </div> <!-- card.// -->
@@ -111,12 +116,39 @@
 		</div> <!-- card.// -->
 
 </aside> <!-- col.// -->
-
+		
 
 </div> <!-- row.// -->
-{% endif %}
+
 <!-- ============================ COMPONENT 1 END .// ================================= -->
 
 </div> <!-- container .//  -->
 </section>
+<style>
+	.fa-trash{
+		display: none;
+
+	}
+	@media  (max-width: 480px) {
+		.input-spinner{
+			width: 90px;
+
+		}
+		.input-spinner .btn{
+			width: auto;
+		}
+		.fa-trash{
+			color: red;
+			font-size: 22px;
+			display: block;
+
+		}
+		.jj{
+			display: none;
+		}
+	}
+
+</style>
+
 {% endblock %}
+

@@ -12,6 +12,8 @@ from django.contrib.auth.decorators import login_required
 
 def cart(request,total=0,quantity=0,cart_items=None):
     try:
+        if 'direct_buy' in request.session:
+            del request.session['direct_buy']
         tax=0
         grand_total=0
         if request.user.is_authenticated:
@@ -24,8 +26,7 @@ def cart(request,total=0,quantity=0,cart_items=None):
         for cart_item in cart_items:
             total += (cart_item.product.get_price()* cart_item.quantity)
             quantity += cart_item.quantity
-        offer_price=total-cart_item.product.price
-        tax=(2*total)/100
+            tax = (cart_item.product.tax * total)/100
         grand_total=total+tax
     except ObjectDoesNotExist:
         pass
@@ -35,7 +36,6 @@ def cart(request,total=0,quantity=0,cart_items=None):
         'cart_items':cart_items,
         'tax':tax,
         'grand_total':grand_total,
-        'offer_price':offer_price,
     }
     return render(request,'store/cart.html',context)
 
@@ -217,16 +217,29 @@ def checkout(request,total=0,quantity=0,cart_items=None):
         tax=0
         grand_total=0
         quantity=0
+        item=None
         if request.user.is_authenticated:
-                    cart_items = CartItem.objects.filter(user=request.user,is_active=True)
+            if 'direct_buy' in request.session:
+                product_id=request.session['direct_buy']
+                item=Product.objects.get(id=product_id)
+            else:
+                cart_items = CartItem.objects.filter(user=request.user,is_active=True)
         else:
             cart = Cart.objects.get(cart_id=_cart_id(request))
             cart_items = CartItem.objects.filter(cart=cart,is_active=True)
-        for cart_item in cart_items:
-            total+=(cart_item.product.get_price() * cart_item.quantity)
-            quantity += cart_item.quantity
-        tax=(2*total)/100
-        grand_total=total+tax
+        if 'direct_buy' in request.session:
+            product_id=request.session['direct_buy']
+            item=Product.objects.get(id=product_id)
+            tax=(2*item.get_price())/100
+            total=item.get_price()
+            quantity=1
+            grand_total=total+tax
+        else:   
+            for cart_item in cart_items:
+                total+=(cart_item.product.get_price() * cart_item.quantity)
+                quantity += cart_item.quantity
+            tax=(2*total)/100
+            grand_total=total+tax
     except ObjectDoesNotExist:
         pass
     if request.session.has_key('coupon_id'):
@@ -240,6 +253,7 @@ def checkout(request,total=0,quantity=0,cart_items=None):
         coupen_discount_price = 0
     request.session['grand_total']=grand_total
     context={
+        'item':item,
         'total':total,
         'quantity':quantity,
         'cart_items':cart_items,
@@ -249,4 +263,4 @@ def checkout(request,total=0,quantity=0,cart_items=None):
         'address':address,
         'coupen_discount_price':coupen_discount_price,
     }
-    return render(request,'store/checkouts.html',context)
+    return render(request,'store/checkouts.html',context)   

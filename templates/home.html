@@ -40,7 +40,7 @@
 <div class="container">
 
 <header class="section-heading">
-	<a href="./store.html" class="btn btn-outline-primary float-right">See all</a>
+	<a href="{% url 'store' %}" class="btn see_all  float-right">See all</a>
 	<h3 class="section-title">Popular products</h3>
 </header><!-- sect-heading -->
 
@@ -74,7 +74,7 @@
 
 		</div>
 		<a href="{% url 'add_cart' product.id %}" style="background-color:rgb(175, 164, 66);color: white;" class="btn btn-block ">Add to cart </a>
-		<a href="#" style="background-color:white;color:rgb(175, 164, 66);border-color: rgb(175, 164, 66);" class="btn btn-block ">Buy Now </a>
+		<a href="{% url 'buy_now' product.id %}" style="background-color:white;color:rgb(175, 164, 66);border-color: rgb(175, 164, 66);" class="btn btn-block ">Buy Now </a>
 	</div> <!-- col.// -->
 	{% endfor %}
 </div> <!-- row.// -->
@@ -90,7 +90,16 @@
 	}
 </style> -->
 
-
+<style>
+.see_all:hover {
+  background-color: rgb(175, 164, 66);
+  color: white;
+}
+.see_all{
+	border: 1px solid rgb(175, 164, 66);
+	color:rgb(175, 164, 66) ;
+}
+</style>
 
 
 </body>

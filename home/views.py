@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from store.models import Banner, Product
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
@@ -15,3 +16,11 @@ def home(request):
 #     return render(request,'signin.html')
 # def register(request):
 #     return render(request,'register.html')
+def buy_now(request,product_id):
+    if request.user.is_authenticated:
+        product=Product.objects.get(id=product_id)
+        request.session['direct_buy']=product.id
+        return redirect('checkout')
+    else:
+        messages.error(request,'Please login')
+        return redirect('store')

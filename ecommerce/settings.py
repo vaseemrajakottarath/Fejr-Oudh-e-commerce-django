@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG',default=False,cast=(bool))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['143.110.247.45','localhost']
 
 
 # Application definition
@@ -165,7 +165,7 @@ TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
 TWILIO_VERIFICATION_SID =config('TWILIO_VERIFICATION_SID')
 
 RAZOR_KEY_ID = 'rzp_test_vRmBPLt5fE8qZV'
-RAZOR_KEY_SECRET = ''
+RAZOR_KEY_SECRET = 'nwKvSffugGRp7oofYTwBenBI'
 
 
 #razorpay API credentials

@@ -43,14 +43,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                        {% if cart_items %}
-                        {% for cart_item in cart_items %}
+                        {% if item %}
+                        
                     <tr>
                         <td>
                             <figure class="itemside align-items-center">
-                                <div class="aside"><img src="{{ cart_item.product.images.url }}" class="img-sm"></div>
+                                <div class="aside"><img src="{{ item.images.url }}" class="img-sm"></div>
                                 <figcaption class="info">
-                                    <a href="{{ cart_item.product.get_url }}" class="title text-dark">{{cart_item.product.product_name}}</a>
+                                    <a href="{{ item.get_url }}" class="title text-dark">{{item.product_name}}</a>
                                   {% for item  in cart_item.variations.all %}<br>
                     		<p class="text-muted small">{{item.variations_value}}</p>
                                   {% endfor %}
@@ -60,18 +60,45 @@
                         </td>
                         <td> 
                             <!-- col.// -->
-                                    <label for="">{{cart_item.quantity}}</label>
+                                    <label for="">{{quantity}}</label>
                         </td>
                         <td> 
                             <div class="price-wrap"> 
-                                <var class="price">{{ cart_item.product.sub_total}}</var> 
-                                <small class="text-muted"> {{cart_item.product.price}} each</small> 
+                                <var class="price">{{ item.sub_total}}</var> 
+                                <small class="text-muted"> {{item.price}} each</small> 
                             </div> <!-- price-wrap .// -->
                         </td>
                        
                     </tr>
-                    {% endfor %}
-                    {% endif %}
+                    {% else %}
+                    {% for x in cart_items %}
+                    <tr>
+                      <td>
+                          <figure class="itemside align-items-center">
+                              <div class="aside"><img src="{{ x.product.images.url }}" class="img-sm"></div>
+                              <figcaption class="info">
+                                  <a href="{{ x.product.get_url }}" class="title text-dark">{{x.product.product_name}}</a>
+                                {% for item  in cart_item.variations.all %}<br>
+                      <p class="text-muted small">{{item.variations_value}}</p>
+                                {% endfor %}
+
+                              </figcaption>
+                          </figure>
+                      </td>
+                      <td> 
+                          <!-- col.// -->
+                                  <label for="">{{x.quantity}}</label>
+                      </td>
+                      <td> 
+                          <div class="price-wrap"> 
+                              <var class="price">{{ x.sub_total}}</var> 
+                              <small class="text-muted"> {{x.product.price}} each</small> 
+                          </div> <!-- price-wrap .// -->
+                      </td>
+                     
+                  </tr>
+                  {% endfor %}
+                  {% endif %}
                     </tbody>
                     </table>
             </div>
@@ -121,7 +148,6 @@
 		   id="">Pay on delivery</a>
 	</div>
 
-
   <script>
     function getCookie(name) {
       let cookieValue = null;
@@ -167,7 +193,7 @@
           success: function (data) {
             console.log(data)
             if (data.message === 'success') {
-
+                
               window.location.replace("{% url 'order_complete' %}")
             } else {
               window.location.replace("payment_failed")
@@ -254,7 +280,7 @@
     return cookieValue;
 }
 
-	var amount = "{{ grand_total }}"
+	var amount = "{{ paypal_amount }}"
 	var url = "{% url 'payments' %}"
 	var csrftoken = getCookie('csrftoken');
 	var orderID = "{{order.order_number}}"

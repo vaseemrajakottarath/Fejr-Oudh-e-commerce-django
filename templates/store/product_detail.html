@@ -49,7 +49,7 @@
 
 
 <hr>
-	<div class="row">
+	<!-- <div class="row">
 		<div class="item-option-select">
 			<h6>Select Size</h6>
 			
@@ -59,15 +59,19 @@
 				<option value="{{x.variation_value}}">{{x.variation_value}}</option>
 				{% endfor %}
 			</select>
-		</div>
-	</div> <!-- row.// -->
+		</div> -->
+	<!-- </div>  -->
 	<hr>
 	{% if  single_product.stock <= 0 %}
 	<h5 class="text-danger" >Out of stock </h5>
 	{% else %}
 	
-	<button type="submit" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
-
+	<button type="submit" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a><br>
+	<!-- <button type="button" class="btn btn-outline-success waves-effect">Success</button> -->
+		<div>
+			
+	<!-- <button type="button rounded" class="btn btn-primary"> <a href="{% url 'buy_now' single_product.id %}" style="background-color:white;color:rgb(175, 164, 66);border-radius: 10px;" class="btn btn-outline-success ">Buy Now </a></button> -->
+		</div>
 	{% endif %}
 </article> <!-- product-info-aside .// -->	
 			</form>
@@ -121,6 +125,7 @@
 		{% include 'includes/alert.html' %}
 	</form>
 <br>
+
 <header class="section-heading">
 	<h3>Customer Reviews </h3>  
 	<div class="rating-star">
@@ -167,8 +172,8 @@
 	</div> <!-- col.// -->
 </div> <!-- row.// -->
 
-
-</div> <!-- container .//  -->
+</div>
+<!-- !-- container .//  --> -->
 </section>
 <style>
 .rate > input{

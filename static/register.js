@@ -1,5 +1,5 @@
 $(document).ready(()=>{
-    $("#myform").validate({
+    $("#registration").validate({
         rules:{
             name:{
                 required:true,

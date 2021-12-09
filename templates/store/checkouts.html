@@ -15,7 +15,7 @@
                                 style="box-shadow: 0 6px 6px 0 rgb(0 0 0 / 12%), 0 1px 3px 0 rgb(0 0 0 / 18%);">
                                 <div class="card-header" id="headingOne">
                                     <h5 class="mb-0">
-                                        <button class="" data-toggle="collapse" data-target="#collapsetwo"
+                                        <button class="btn btn-primary" data-toggle="collapse" data-target="#collapsetwo"
                                             aria-expanded="true" aria-controls="collapsetwo">
                                             Address
                                         </button>
@@ -70,7 +70,7 @@
                             style="box-shadow: 0 6px 6px 0 rgb(0 0 0 / 12%), 0 1px 3px 0 rgb(0 0 0 / 18%); width: 100%;">
                             <div class="card-header" id="headingOne">
                                 <h5 class="mb-0">
-                                    <button class="" href="{}"data-toggle="collapse" data-target="#collapseOne"
+                                    <button class="btn btn-primary" href="{}"data-toggle="collapse" data-target="#collapseOne"
                                         aria-expanded="true" aria-controls="collapseOne">
                                         Add Address
                                     </button>
@@ -281,6 +281,33 @@
 
                         </thead>
                         <tbody>
+                            {% if item %}
+                            <tr>
+                                <td>
+                                    <figure class="itemside align-items-center">
+                                        <div class="aside"><img src="{{ item.images.url }}"
+                                                class="img-sm">
+                                        </div>
+                                        <figcaption class="info">
+                                            <a href="{{ item.get_url }}"
+                                                class="text-dark">{{item.product_name }}</a>
+                                            {% for item in cart_item.variations.all %}<br>
+                                            <small class="text-muted">{{ item.variation_value }}</small>
+                                            {% endfor %}
+                                        </figcaption>
+                                    </figure>
+                                </td>
+
+                                <td>
+                                    {{ quantity }}
+                                </td>
+                                <td>
+
+                                    <var class="price">Rs.{{ item.price }}/-</var>
+                                    <small class="text-muted">Coupen discount Rs.{{ coupen_discount_price|floatformat:0 }}/-</small>
+                                </td>
+                            </tr>
+                            {% else %}
                             {% for cart_item in cart_items %}
                             <tr>
                                 <td>
@@ -299,25 +326,51 @@
                                 </td>
 
                                 <td>
-                                    {{ quantity }}
+                                    {{ cart_item.quantity }}
                                 </td>
                                 <td>
-
+                                    {{ cart_item.sub_total }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                            </tbody>
+                            </table>
+                            <div class="container" >
+                                <div class="card-body">
+                                    <dl class="dlist-align">
+                                        <dt>Tax:</dt>
+                                        <dd class="text-right">Rs.{{tax|floatformat:0}}/-</dd>
+                                      </dl>
+                                      {% if coupen_discount_price %}
+                                      <dl class="dlist-align">
+                                        <dt>Coupen saved:</dt>
+                                        <dd class="text-right">Rs.{{ coupen_discount_price|floatformat:0 }}/-</dd>
+                                      </dl>
+                                      {% endif %}
+                                    <dl class="dlist-align">
+                                      <dt>Total price:</dt>
+                                      <dd class="text-right"><b>Rs.{{total}}/-</b></dd>
+                                    </dl>
+                                </div>
+                                </div>
+                                
+<!-- 
                                     <var class="price">Rs.{{ grand_total|floatformat:0 }}/-</var>
                                     <small class="text-muted">Coupen discount Rs.{{ coupen_discount_price|floatformat:0 }}/-</small>
                                 </td>
                             </tr>
-                            {% endfor %}
+                           
                         </tbody>
-                    </table>
+                    </table> -->
                     <div class="card-body">
-                        <button type='submit' name="submit" class="btn btn-primary btn-block">Checkout</button>
+                        <button type='submit' name="submit" class="btn  btn-block" style="background-color:rgb(175, 164, 66) ;color: white;">Checkout</button>
                         <a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
                         </form>
                         <form action="{% url 'coupon' %}" class="mt-2"method="post">
                             {% csrf_token %}
-                            <input name="coupon_code" type="text">
-                            <input type="submit" class="" value=" Check Coupon Code" >
+                            <input name="coupon_code" style="border-radius: 5px;border: 1px solid #999;" class=""type="text">
+                            <input type="submit" class="btn btn-primary" value=" Check Coupon Code" >
                             {% include 'includes/alert.html' %}
                         </form>
                     </div> <!-- card-body.// -->

@@ -3,14 +3,18 @@ from django.db.models.deletion import CASCADE
 from account.models import Account
 from category.models import Category
 from django.urls import reverse
+from django.db.models.aggregates import Sum
 from django.db.models import Avg, Count
+from django.utils import timezone
+from django.apps import apps
 
 # Create your models here.
 class Product(models.Model):
     product_name = models.CharField(max_length=200,unique=True)
     slug = models.SlugField(max_length=200,unique=True)
     description = models.TextField(max_length=500,blank=True)
-    price =models.IntegerField()
+    price =models.IntegerField(null=True)
+    tax=models.IntegerField(null=True)
     images=models.ImageField(upload_to='photo/products',null=True)
     image2=models.ImageField(upload_to='photo/products',null=True)
     image3=models.ImageField(upload_to='photo/products',null=True)
@@ -60,6 +64,25 @@ class Product(models.Model):
         if reviews['count'] is not None:
             count=int(reviews['count'])
             return count
+    
+    def get_revenue(self,month=timezone.now().month):
+        
+        orderproduct = apps.get_model('orders', 'OrderProduct')
+        orders=orderproduct.objects.filter(product=self,created_at__month=month,status=4)
+        return orders.values('product').annotate(revenue=Sum('product_price'))
+    
+    def get_profit(self,month=timezone.now().month):
+        
+        orderproduct = apps.get_model('orders', 'OrderProduct')
+        orders=orderproduct.objects.filter(product=self,created_at__month=month,status=4)
+        profit_calculted=orders.values('product').annotate(profit=Sum('product_price'))
+        profit_calculated=profit_calculted[0]['profit']*0.23
+        return profit_calculated
+
+    def get_count(self,month=timezone.now().month):
+        orderproduct = apps.get_model('orders', 'OrderProduct')
+        orders=orderproduct.objects.filter(product=self,created_at__month=month,status=4)
+        return orders.values('product').annotate(quantity=Sum('quantity'))
 
 class VariationManager(models.Manager):
     def sizes(self):

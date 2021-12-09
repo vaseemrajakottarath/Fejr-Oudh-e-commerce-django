@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from account.models import Account
 from category.models import Category
-from offer.form import CategoryOfferForm, ProductOfferForm
+from offer.form import CategoryOfferForm, CouponForm, ProductOfferForm
 from store.models import Product
 from store.forms import ProductForm
 from django.contrib.auth.decorators import login_required
@@ -12,8 +12,10 @@ from orders.models import OrderProduct,Ordern
 from orders.forms import OrderProductForm
 from django.utils import timezone
 import datetime
+from django.http import HttpResponse
+import csv
 from django.db.models import Sum
-from offer.models import ProductOffer,CategoryOffer
+from offer.models import Coupon, ProductOffer,CategoryOffer, RedeemedCoupon
 from datetime import date ,timedelta
 # Create your views here.
 
@@ -418,3 +420,109 @@ def add_categoryoffer(request):
             'form':form,
     }
     return render(request,'adminpanel/add_categoryoffer.html',context)
+
+
+def coupon_list(request):
+    coupon_lists=Coupon.objects.all()
+    context={
+        'coupon_lists':coupon_lists,
+    }
+    return render(request,'adminpanel/coupon.html',context)
+
+
+def add_coupon(request):
+    form = CouponForm()
+    if request.method == 'POST':
+        form = CouponForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('coupon_list')
+    context = {
+            'form':form,
+    }
+    return render(request,'adminpanel/add_coupon.html',context)
+
+def delete_coupon(request,coup_id):
+    coupon=Coupon.objects.get(id=coup_id)
+    coupon.delete()
+ 
+    return redirect('coupon_list')
+
+def edit_coupon(request,coup_id):
+    coupon=Coupon.objects.get(id=coup_id)
+    form=CouponForm(instance=coupon)
+    if request.method == 'POST':
+        form = CouponForm(request.POST,instance=coupon)
+        if form.is_valid():
+            try:
+                form.save()
+            except:
+                context = {'form':form}
+                return render(request,'adminpanel/editcoupon.html',context)
+            return redirect('coupon_list')
+    context = {'form':form}
+    return render(request,'adminpanel/editcoupon.html',context)
+
+def redeemed_coupon(request):
+    redeemed_coupon=RedeemedCoupon.objects.all()
+    context={
+        'redeemed_coupon':redeemed_coupon,
+    }
+    return render(request,'adminpanel/redeemed_coupon.html',context)
+
+def product_sales(request,month=timezone.now().month):
+    
+    print("Month:",end =" ")
+    print(month)
+    orders=OrderProduct.objects.filter(created_at__month=month,status=4)
+    products=Product.objects.all()
+    
+    month_now=timezone.now().strftime('%B')
+    #renvenue by distinct vehicle
+    # revenue_by_products = (orders.values('product').annotate(revenue=Sum('product_price')).order_by('product__product_name'))   
+    total_revenue=0
+    total_profit=0
+    for product in products:
+        print(product.get_revenue())
+        try:
+            total_revenue+=product.get_revenue()[0]['revenue']
+        except:
+            pass
+        try:
+            print(product.get_profit())
+            total_profit+=product.get_profit()
+        except:
+            pass    
+    request.session['total_revenue']=total_revenue
+    request.session['total_profit']=total_profit      
+    context={
+        'month_now':month_now,
+        'total_revenue':total_revenue,
+        'total_profit':total_profit,
+        'products':products,
+    }
+    return render(request,'adminpanel/sales_report.html',context)
+
+
+def download_product_sales_report(request):
+    products=Product.objects.all()
+    context={
+        'products':products,
+    }
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=sales_report.csv'
+
+    writer = csv.writer(response)
+    
+    writer.writerow(['Total Revenue', 'Total Profit'])
+    writer.writerow([request.session['total_revenue'],request.session['total_profit']])
+    writer.writerow(
+        ['Product', 'Category','No of Sold Products', 'Revenue recieved', 'Profit','Stocks remaining'])
+    for x in products:
+        try:
+            writer.writerow([x.id, x.p_category,
+                          x.get_count()[0]['quantity'], x.get_revenue()[0]['revenue'],x.get_profit(),
+                         x.remaining])
+        except:
+            pass
+    return response

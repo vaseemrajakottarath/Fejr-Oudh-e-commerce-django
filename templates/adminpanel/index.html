@@ -128,7 +128,7 @@
                 <span class="nav-link-text">Order Management</span>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item"> 
               <a class="nav-link" href="{% url 'product_offer' %}">
                 <i class="ni ni-circle-08 text-pink"></i>
                 <span class="nav-link-text">Product Offer</span>
@@ -140,19 +140,48 @@
                 <span class="nav-link-text">Category Offer</span>
               </a>
             </li>
-          </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'coupon_list' %}">
+                <i class="ni ni-send text-dark"></i>
+                <span class="nav-link-text">Coupon</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'redeemed_coupon' %}">
+                <i class="ni ni-send text-dark"></i>
+                <span class="nav-link-text">Redeemed Coupon</span>
+              </a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="{% url 'sales_report' %}">
+                <i class="ni ni-send text-dark"></i>
+                <span class="nav-link-text">Sales Report</span>
+              </a>
+            </li> -->
+          <!-- <li class="nav-item">
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="">Coupen Offer</a>
+            <a class="dropdown-item" href="">Add coupen Offer</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="">Redeemed Coupon</a>
+            </div>
+          </li> -->
+          
           <!-- Divider -->
           <hr class="my-3">
           <!-- Heading -->
           <h6 class="navbar-heading p-0 text-muted">
-            <span class="docs-normal">Documentation</span>
+            <span href="{% url 'sales_report' %}" class="docs-normal">Sales Report</span>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+           
+            </div>
           </h6>
           <!-- Navigation -->
           <ul class="navbar-nav mb-md-3">
             <li class="nav-item">
               <a class="nav-link" href="docs/getting-started/overview.html" target="_blank">
                 <i class="ni ni-spaceship"></i>
-                <span class="nav-link-text">Getting started</span>
+                <span class="nav-link-text">Sales</span>
               </a>
             </li>
             <li class="nav-item">
@@ -174,9 +203,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active active-pro" href="examples/upgrade.html">
+              <a class="nav-link active active-pro" href="{% url 'sales_report' %}">
                 <i class="ni ni-send text-dark"></i>
-                <span class="nav-link-text">Upgrade to PRO</span>
+                <span class="nav-link-text">Sales Report</span>
               </a>
             </li>
           </ul>
@@ -322,12 +351,23 @@
                 </div>
               </div>
             </div>
-            <div class="" style="width:50%;">
+            <div class="row" style="width: 100%;">
+              <div class="card col-md-7 ">
+                
+              
+            <div class="card-body" style="width: 100%;">
               <canvas id="mycharts"></canvas>
             </div>
-            <div style="width: 50%;">
+          </div>
+            <div class="col-md-1"></div>
+
+            <div class="card col-md-4 ">
+            <div class="card-body" style="width: 100%;">
               <canvas id="piechart"></canvas>
             </div>
+            </div>
+        
+          </div>
           </div>
         </div>
       </div>
@@ -402,11 +442,7 @@ const piechart = new Chart(ct, {
         }]
     },
     options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
+     
     }
 });
 </script>

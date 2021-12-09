@@ -8,7 +8,7 @@ from django.contrib import messages
 def coupon(request):
     user=request.user
     if request.method=='POST':
-        coupon_code = request.POST.get('coupon_code')
+        coupon_code = request.POST['coupon_code']
         try:
             coupon = Coupon.objects.get(coupon_code=coupon_code,is_active=True)
         except:

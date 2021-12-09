@@ -135,7 +135,7 @@
 <div  class="second-header" >
    <div class="secoond-header-inner"> 
         <div class="dropdown">
-            <button class="dropbtn">2021 HotProducts v</button>
+            <button class="dropbtn">2021 HotProducts </button>
             <div class="dropdown-content">
               {% for category in links %}
               <a href="{{ category.get_url }}">{{category.category_name}}</a>
@@ -144,7 +144,7 @@
             </div>
           </div> 
           <div class="dropdown">
-            <button class="dropbtn">Attar and Oudh v</button>
+            <button class="dropbtn">Attar and Oudh </button>
             <div class="dropdown-content">
               <a href="#">Musk Rijaali</a>
               <a href="#">Mukhallath shams</a>
@@ -152,7 +152,7 @@
             </div>
           </div> 
           <div class="dropdown">
-            <button class="dropbtn">French perfumes v</button>
+            <button class="dropbtn">French perfumes </button>
             <div class="dropdown-content">
               <a href="#">Davidoff coolwater</a>
               <a href="#">Joop</a>
@@ -201,7 +201,8 @@
       background-color: #f9f9f9;
       min-width: 160px;
       box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
+      z-index: 10;
+      
     }
     
     /* Links inside the dropdown */
@@ -218,12 +219,25 @@
     /* Show the dropdown menu on hover */
     .dropdown:hover .dropdown-content {
       display: block;
+      justify-content: center;
+      left: -50px;
     }
     
     /* Change the background color of the dropdown button when the dropdown content is shown */
     .dropdown:hover .dropbtn {
       background-color:white;
     }
+
+    @media  (max-width: 480px) {
+
+      .dropbtn {
+
+      padding: 0;
+      font-size: 12px;
+
+    }
+ 
+}
     
   
               

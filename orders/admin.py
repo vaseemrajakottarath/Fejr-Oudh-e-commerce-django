@@ -19,5 +19,5 @@ class OrderAdmin(admin.ModelAdmin):
 admin.site.register(Payment)
 admin.site.register(OrderProduct)
 admin.site.register(Address)
-admin.site.register(Ordern)
+admin.site.register(Ordern) 
 

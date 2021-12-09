@@ -1,0 +1,52 @@
+
+
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% include 'adminpanel/nav.html'%}
+{% block content %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.js"></script>
+
+
+
+
+<div  style="width:100%;display: block; text-align: center;"  class="justify-content-center" d>
+    <div class="align-items-center container p-5" style="overflow-y: auto;margin-top: 30px;">
+        <h1 >Add Coupon</h1>
+        <form action="{% url 'add_coupon' %}" method="post" enctype="multipart/form-data" class="col-xl-9">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <input class="btn btn-info" type="submit" id="btn-submit" value="submit">
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).on('click', '#btn-submit', function (e) {
+        e.preventDefault();
+        swal({
+            title: "Do you want to update ?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(function (result) {
+            if (result) {
+                $('#myform').submit();
+            }
+
+        });
+    });
+</script>
+
+
+
+</body>
+
+</html>
+{% endblock %}

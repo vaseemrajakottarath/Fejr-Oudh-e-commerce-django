@@ -94,3 +94,12 @@ def submit_review(request,product_id):
                 data.save()
                 messages.success(request, 'Thank you! Your review has been submitted.')
                 return redirect(url)
+
+def buy_now(request,product_id):
+    if request.user.is_authenticated:
+        product=Product.objects.get(id=product_id)
+        request.session['direct_buy']=product.id
+        return redirect('checkout')
+    else:
+        messages.error(request,'Please login')
+        return redirect('store')
