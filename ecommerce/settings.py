@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG',default=False,cast=(bool))
 
-ALLOWED_HOSTS = ['143.110.247.45','localhost']
+ALLOWED_HOSTS = ['206.189.133.65','localhost']
 
 
 # Application definition
