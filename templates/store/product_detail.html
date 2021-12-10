@@ -30,19 +30,27 @@
 <h2 class="title">{{ single_product.product_name }}</h2>
 <div class="rating-star">
 	<span>
+		{% if reviews.count != 0 %}
 		<i class="fa fa-star{% if single_product.averageReview < 0.5 %}-o{% elif single_product.averageReview >= 0.5 and single_product.averageReview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
 		<i class="fa fa-star{% if single_product.averageReview < 1.5 %}-o{% elif single_product.averageReview >= 1.5 and single_product.averageReview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
 		<i class="fa fa-star{% if single_product.averageReview < 2.5 %}-o{% elif single_product.averageReview >= 2.5 and single_product.averageReview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
 		<i class="fa fa-star{% if single_product.averageReview < 3.5 %}-o{% elif single_product.averageReview >= 3.5 and single_product.averageReview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
 		<i class="fa fa-star{% if single_product.averageReview < 4.5 %}-o{% elif single_product.averageReview >= 4.5 and single_product.averageReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
-<span>{{single_product.countReview}} reviews</span>
+		{% endif %}
+		<small>&emsp;{{reviews.count}} reviews</small>
 		</span>
 </div>
 
 
 <div class="mb-3"> 
-	<var class="price h4">Rs.{{ single_product.price }}</var><br>
-	<var class="price h4">Discount:{{single_product.get_price }}</var> 
+	<var class="price h4">Rs.{{ single_product.get_price|floatformat:0 }}/-</var><br>
+								{% if single_product.productoffer.is_active %}
+								<del class="price-old">Rs.{{ single_product.price|floatformat:0 }}/-</del>&emsp;<p style="">Off-{{ single_product.productoffer.discount_offer }}%</p>
+								{% elif single_product.p_category.categoryoffer.is_active  %}
+								<del class="price-old">Rs.{{ single_product.price|floatformat:0 }}/-</del>&emsp;<p style="">Off-{{ single_product.p_category.categoryoffer }}%</p>
+								{% endif %}
+	<!-- <var class="price h4">Rs.{{ single_product.price }}</var><br>
+	<var class="price h4">Discount:{{single_product.get_price }}</var>  -->
 </div> 
 
 <p>{{ single_product.description}}</p>
@@ -68,10 +76,10 @@
 	
 	<button type="submit" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a><br>
 	<!-- <button type="button" class="btn btn-outline-success waves-effect">Success</button> -->
-		<div>
-			
+	</button>
+	<a href="{% url 'buy_now' single_product.id %}" class="btn see_all"> <span>Buy Now</span></a>	
 	<!-- <button type="button rounded" class="btn btn-primary"> <a href="{% url 'buy_now' single_product.id %}" style="background-color:white;color:rgb(175, 164, 66);border-radius: 10px;" class="btn btn-outline-success ">Buy Now </a></button> -->
-		</div>
+		
 	{% endif %}
 </article> <!-- product-info-aside .// -->	
 			</form>
@@ -237,6 +245,18 @@
   }
   
   </style>
+<style>
+	.see_all:hover {
+	  background-color: rgb(175, 164, 66);
+	  color: white;
+	}
+	.see_all{
+		border: 1px solid rgb(175, 164, 66);
+		color:rgb(175, 164, 66) ;
+	}
+	</style>
+	
+
 
 <script type="text/javascript">
 	$(document).ready(function () {

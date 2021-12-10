@@ -161,13 +161,6 @@ def resend_reg_otp(request):
     return redirect('confirm_reg_otp')
 
 
-
-
-
-
-
-
-
 @login_required(login_url =' signin')
 def logout(request):
     auth.logout(request)
@@ -193,15 +186,22 @@ def numberotp(request):
 def otp(request):
     if request.method=='POST':
         otp=request.POST['otpnumber']
-        mobile=request.session['checknumber']
-        if verify2(mobile,otp):
-            print("OTP verified")
-            return redirect('signin')
-        else:
-            print("OTP not matching")
-        
-        
-    return render(request,'otplogin.html')
+        try:
+            mobile=request.session['checknumber']
+            if verify2(mobile,otp):
+                user=Account.objects.get(phone_number=mobile)
+                user.is_verified=True
+                user.save()
+                auth.login(request,user)
+                return redirect('home')
+            else:
+                messages.info(request, "Password not matching..Try Again..!")
+                return redirect('numberotp')
+        except:
+            messages.info(request, "Somthing Went Wrong")
+            return redirect('numberotp')
+    else:    
+        return render(request,'otplogin.html')
 
 def forgetpassword(request):
     if request.method=='POST':
