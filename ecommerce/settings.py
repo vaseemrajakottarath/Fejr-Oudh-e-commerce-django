@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =False
 
-ALLOWED_HOSTS = ['206.189.133.65','localhost','127.0.0.1']
+ALLOWED_HOSTS = ['159.65.155.186','fejroud.ml','www.fejroud.ml']
 
 
 # Application definition
