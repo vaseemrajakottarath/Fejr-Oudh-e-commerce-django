@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG',default=False,cast=(bool))
+DEBUG =False
 
 ALLOWED_HOSTS = ['206.189.133.65','localhost','127.0.0.1']
 
@@ -89,10 +89,19 @@ AUTH_USER_MODEL = 'account.Account'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ecomm',
+        'USER':'vaseemsh',
+        'PASSWORD': 'vaseem',
+        'HOST': 'localhost',
+        'PORT': '5432',
 
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+
+    # }
 }
 
 
@@ -133,11 +142,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT =  BASE_DIR /'assets'
-STATICFILES_DIRS =[BASE_DIR / 'static']
+STATICFILES_DIRS =[
+    os.path.join(BASE_DIR,'static')
+    ]
+
+STATIC_ROOT = os.path.join(BASE_DIR ,'asset')
+
 
 MEDIA_URL = '/media/'
-STATIC_ROOT =  BASE_DIR /'media'
+MEDIA_ROOT =  BASE_DIR /'media'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 CRISPY_FAIL_SILENTLY = False
@@ -160,8 +173,9 @@ EMAIL_HOST_USER = 'vaseemrajakottarath@gmail.com'
 EMAIL_HOST_PASSWORD = 'Vaseem@96'
 EMAIL_USE_TLS = True
 
-TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
+
 TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
+TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
 TWILIO_VERIFICATION_SID =config('TWILIO_VERIFICATION_SID')
 
 RAZOR_KEY_ID = 'rzp_test_vRmBPLt5fE8qZV'
@@ -174,4 +188,3 @@ client = razorpay.Client(auth=("YOUR_ID", "YOUR_SECRET"))
 
 # data = { "amount": 500, "currency": "INR", "receipt": "order_rcptid_11" }
 # payment = client.order.create(data=data)
-
