@@ -1,12 +1,13 @@
 import os
+from decouple import Config
 from twilio.rest import Client
 from django.conf import settings
 
 # Find your Account SID and Auth Token at twilio.com/console
 # and set the environment variables. See http://twil.io/secure
 def verify(mobile):
-    account_sid = settings.TWILIO_ACCOUNT_SID
-    auth_token =settings.TWILIO_AUTH_TOKEN
+    account_sid = Config('TWILIO_ACCOUNT_SID')
+    auth_token = Config('TWILIO_AUTH_TOKEN')
     client = Client(account_sid, auth_token)
 
     verification = client.verify \
@@ -16,8 +17,8 @@ def verify(mobile):
 
     print(verification.status)
 def verify2(mobile,otp):
-    account_sid = settings.TWILIO_ACCOUNT_SID
-    auth_token = settings.TWILIO_AUTH_TOKEN
+    account_sid = Config('TWILIO_ACCOUNT_SID')
+    auth_token = Config('TWILIO_AUTH_TOKEN')
     client = Client(account_sid, auth_token)
 
     verification_check = client.verify \
