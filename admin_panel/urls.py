@@ -41,7 +41,9 @@ urlpatterns = [
     path('redeemed_coupon',views.redeemed_coupon,name='redeemed_coupon'),
    
 
-    path('sales_report',views.product_sales,name='sales_report')
+    path('sales_report',views.product_sales,name='sales_report'),
+    path('download_product_sales_report',views.download_product_sales_report,name='download_product_sales_report')
+
 
 
 ]

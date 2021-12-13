@@ -30,7 +30,10 @@ def admindash(request):
 
         total_orders = Ordern.objects.filter(is_ordered=True).count()
         total_revenue = Ordern.objects.aggregate(Sum('order_total'))
-        total_sales_amount = float(total_revenue['order_total__sum'])
+        try:
+            total_sales_amount = float(total_revenue['order_total__sum'])
+        except:
+            total_sales_amount=0
         current_year= timezone.now().year
         current_month = timezone.now().month
         order_detail = OrderProduct.objects.filter(created_at__month=current_month, status = 4)
