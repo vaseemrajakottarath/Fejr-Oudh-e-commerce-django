@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG =True
+DEBUG =False
 
 ALLOWED_HOSTS = ['159.65.155.186','localhost','127.0.0.1','fejroud.ml','www.fejroud.ml']
 
@@ -89,13 +89,11 @@ AUTH_USER_MODEL = 'account.Account'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'fej',
-        'USER':'fejr',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME':'ecomm',
+        'USER':'fejar',
+        'PASSWORD': 'fejar',
         'PORT': '5432',
-
     }
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
